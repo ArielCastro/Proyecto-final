@@ -1,0 +1,14 @@
+{
+  "name": "proyecto-final",
+  "version": "1.0.0",
+  "description": "Proyecto Final de la clase Sistemas Expertos (Desarrollo Web)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ariel Castro",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
