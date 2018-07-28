@@ -79,16 +79,15 @@ body {
     padding-left: 50px;
     padding-right: 50px;
   }
-  
-  .navbar button {
-    color: #FFF;
-    border-color: #FFA425;
-    background-color: #FFA425  
-  
+   /* 
+  .navbar button :hover{
+    background-color: #FFA425 !important;
+    border-color: #FFA425 !important;  
   } 
+ 
    .navbar button :hover{
     background-color: #FFA425 !important;
-  } 
+  }  */
   
   #ul-navbar{
     margin: 0px 10px;
@@ -96,16 +95,25 @@ body {
   
   
   #ul-navbar li{
-    margin: 0px 50px;
+    margin: 0px 55px;
     /*  font-size: 1.1em;*/
   
   }
-  
-  #ul-navbar li :hover{
-    color: #FFA425;
+
+  #img-usuario{
+    max-width: 40px;
+    max-height: 40px;
+  }
+
+  #nav-der li{
+    margin: 0px 10px;
   }
   
-  .btn-navegacion{
+/*   #ul-navbar li :hover{
+    color: #FFA425;
+  } */
+  
+/*   .btn-navegacion{
     text-decoration: none;
     color: #FFF;
     background-color: #FFA425;
@@ -120,7 +128,7 @@ body {
     text-decoration: none;
     background-color: #008BC8;
     color: #1069D6;
-  }
+  } */
   
   
   .bg-dark {
