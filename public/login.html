@@ -7,31 +7,68 @@
     <meta name="author" content="">
     <title>Login-Clouddit</title>
     <link rel="shortcut icon" href="img/icono-clouddit.png" />
-    <!-- Bootstrap core CSS -->
+    <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+    <!-- css-->
     <link href="css/login.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
   </head>
 
   <body class="text-center">
+      <header>
+          <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" id="barra-navegacion">
+            <div>
+              <a class="navbar-brand" href="#"><img src="img/logo-clouddit-end.png" id="img-logo"></a>
+            </div>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-landing" aria-controls="navbar-landing" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+              </button>
+    
+              <div class="collapse navbar-collapse" id="navbar-landing">
+                  <ul class="navbar-nav mr-auto" id="ul-navbar">
+                      <li class="nav-item active">
+                          <a class="nav-link" href="index.html">Inicio <span class="sr-only">(current)</span></a>
+                      </li>
+                      <li class="nav-item active">
+                          <a class="nav-link" href="#">Aprender</a>
+                      </li>
+                      <li class="nav-item active">
+                          <a class="nav-link" href="precio.html">Precios</a>
+                      </li>
+                      <li class="nav-item active">
+                          <a class="nav-link" href="#">Acerca de</a>
+                      </li>
+                      <li class="nav-item active">
+                          <a class="nav-link" href="#">Ayuda</a>
+                      </li>
+                  </ul>
+                  <form class="form-inline mt-2 mt-md-0">
+                          <button class="btn btn-navbar my-2 my-sm-0 mr-2 btn-navegacion" type="submit"><a href="registro.html">Regístrate</a></button>
+                          <button class="btn btn-navbar my-2 my-sm-0 btn-navegacion" type="submit"><a href="login.html">Iniciar Sesión</a></button>
+                  </form>
+              </div>
+          </nav>
+      </header>
+  
     <form class="form-signin" id="form-login">
-      <img class="mb-4" src="img/logo-clouddit-end.png" alt="" width="200" height="65">
+      <img class="mb-4" src="img/logo-clouddit-end.png" alt="" width="200" height="55">
       <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
-      <label for="inputEmail" class="sr-only">Correo Eletrónico</label>
-      <input type="email" id="inputEmail" class="form-control" placeholder="Correo Electrónico" required autofocus>
-      <label for="inputPassword" class="sr-only">Password</label>
+      <label for="entrada-email" class="sr-only">Correo Eletrónico</label>
+      <input type="email" id="entrada-email" class="form-control" placeholder="Correo Electrónico" required autofocus>
+      <label for="inputPassword" class="sr-only">Contraseña</label>
       <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
       <div class="checkbox mb-3">
         <label>
-          <input type="checkbox" value="remember-me"> Recuerdame
+          <input type="checkbox" value="remember-me"> Recuérdame
         </label>
       </div>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
-      <a href="registro.html">No tienes cuenta? Registrate</a>
+      <a href="registro.html">¿No tienes cuenta? Regístrate</a>
       <p class="mt-5 mb-3 text-muted">&copy; Clouddit, 2018</p>
     </form>
 
+    <!-- Bootstrap Javascript -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
     <script src="js/popper.min.js"></script>
