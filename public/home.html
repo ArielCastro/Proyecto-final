@@ -57,8 +57,8 @@
     </header>
  
 
-    <div class="container-fluid" style="border: 2px solid #C00;">
-      <div class="row" style="border: 2px solid #C00;">
+    <div class="container-fluid">
+      <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
@@ -123,7 +123,7 @@
           </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" style="border: 2px solid #C00">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2">Dashboard</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
@@ -137,23 +137,15 @@
               </button>
             </div>
           </div>
+
           <!-- DIV para el editor de texto -->
-          <div id='container' style="border: 2px solid #C00">
-            <div id="editor">
-            </div>
-          
-            <iframe id='iframe' frameBorder="0">
-            </iframe>
+          <div id="editor"></div>
 
+          <div id='container'>
+            <iframe id='iframe' frameBorder="0"></iframe>
           </div>
-          <div>
-            <h1>prueba 1</h1>
-            <h1>prueba 1</h1>
-            <h1>prueba 1</h1>
-
-          </div>
-
-
+          <!-- Fin editor -->
+  
         </main>
 
       </div>
@@ -183,23 +175,7 @@
       </head>
 
       <body>
-        <div class="row">
-                    <div class="col-lg-4">
-                    <img class="rounded-circle" src="img/circulo-seguro.png" alt="Generic placeholder image" width="140" height="140">
-                    <h2>Seguridad de archivos</h2>
-                    <p>Guarda tus archivos de manera segura, mantén un respaldo de tus proyectos con nosotros para nunca perderlos.</p>
-                    </div>
-                    <div class="col-lg-4">
-                    <img class="rounded-circle" src="img/texto-php.jpg" alt="Generic placeholder image" width="140" height="140">
-                    <h2>Potente editor de texto</h2>
-                    <p>Excelente herramienta para desarrolladores ya que facilita la visualización del código según el lenguaje que utilice.</p>
-                    </div>
-                    <div class="col-lg-4">
-                    <img  class="rounded-circle" src="img/multiples-usuarios.jpg" alt="Generic placeholder image" width="140" height="140">
-                    <h2>Crea proyectos rápidamente</h2>
-                    <p>Gracias al acceso de múltiples usuarios al mismo tiempo se pueden desarrollar más proyectos en menos tiempo.</p>
-                    </div>
-                </div>
+
       </body>
 
       </html>`,1); //1 = moves cursor to end

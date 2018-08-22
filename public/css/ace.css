@@ -1,0 +1,28 @@
+html,body { margin:0; padding:0; height:100%; width:100%; }
+
+#editor {
+    height: 100%;
+    width:100%;
+    display:inline-block;
+}
+
+#container {
+	height: 550px;
+	width:auto;
+  white-space : nowrap; 
+  overflow : hidden;
+  position:relative;
+}
+
+#iframe {
+	height:100%;
+	display:inline-block;
+	width:100%;
+}
+
+/* disable tag matching */
+.ace_editor .ace_marker-layer .ace_bracket { display: none }
+
+/* .ace_editor {
+  position: absolute !important;
+} */
