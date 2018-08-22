@@ -55,24 +55,30 @@
       <img class="mb-4" src="img/logo-clouddit-end.png" alt="" width="200" height="55">
       <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
       <label for="entrada-email" class="sr-only">Correo Eletrónico</label>
-      <input type="email" id="entrada-email" class="form-control" placeholder="Correo Electrónico" required autofocus>
+      <input type="text" class="form-control" placeholder="Usuario" id="correo" value="patricio@gmail.com">
+      <input type="text" class="form-control" placeholder="Password" id="contrasena" value="asd.456">
+      <input type="button" class="btn btn-lg btn-primary btn-block" value="Login" id="btn-login">
+      <!-- <input type="email" id="correo" class="form-control" placeholder="Correo Electrónico" required autofocus>
       <label for="inputPassword" class="sr-only">Contraseña</label>
-      <input type="password" id="inputPassword" class="form-control" placeholder="Contraseña" required>
+      <input type="password" id="contrasena" class="form-control" placeholder="Contraseña" required> -->
       <div class="checkbox mb-3">
         <label>
           <input type="checkbox" value="remember-me"> Recuérdame
         </label>
       </div>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Ingresar</button>
+      <!-- <button class="btn btn-lg btn-primary btn-block" id="btn-login">Ingresar</button> -->
+      <!-- <input type="button" class="btn btn-success" value="Login" id="btn-login"> -->
       <a href="registro.html">¿No tienes cuenta? Regístrate</a>
       <p class="mt-5 mb-3 text-muted">&copy; Clouddit, 2018</p>
     </form>
 
     <!-- Bootstrap Javascript -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script> -->
+    <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
+    <script src="js/controlador-login.js"></script> 
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/controlador.js"></script> 
+   
   </body>
 </html>
