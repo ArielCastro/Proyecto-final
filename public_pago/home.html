@@ -69,13 +69,13 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span><i class="far fa-file"></i></span>
+                <a class="nav-link" href="#" onclick="cargarTodoMisArchivos();">
+                  <span><i class="far fa-file" ></i></span>
                   Mis proyectos
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
+              <li class="nav-item" >
+                <a class="nav-link" href="#"  onclick="cargarTodoCompartidos();">
                   <span><i class="fas fa-users"></i></span>
                   Compartidos
                 </a>
@@ -89,7 +89,7 @@
             </ul>
 
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Recientes</span>
+              <span>Recientes de pago</span>
               <a class="d-flex align-items-center text-muted" href="#">
                 <span data-feather="plus-circle"></span>
               </a>
@@ -125,7 +125,7 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Dashboard</h1>
+            <h1 class="h2" id="h1-titulo"></h1>
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
                 <button class="btn btn-sm btn-outline-secondary">Compartir</button>
@@ -138,14 +138,32 @@
             </div>
           </div>
 
-          <!-- DIV para el editor de texto -->
-          <div id="editor"></div>
+          <div>
+            <table class="table table-striped" id="tbl-unidad">
+                <!-- <thead>
+                    <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Propietario</th>
+                    <th scope="col">Tamaño</th>
+                    <th scope="col">Fecha Creacion</th>
+                    <th scope="col">Fecha modificacion</th>
+                    </tr>
+                  </thead> -->
+            </table>
+            <table class="table table-striped" id="tbl-compartidos">
 
-          <div id='container'>
+          </table>
+          </div>
+          <!-- DIV para el editor de texto -->
+          <div style="display:none;" type="hidden" id="editor"></div>
+
+          <div style="display:none;" type="hidden" id='container'>
             <iframe id='iframe' frameBorder="0"></iframe>
           </div>
           <!-- Fin editor -->
+
         </main>
+
       </div>
     </div>
 
@@ -201,10 +219,12 @@
 
     <!-- Bootstrap JavaScript-->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script> -->
+    <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/controlador-home.js"></script>
 
     <!-- Icons -->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
