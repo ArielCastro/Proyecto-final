@@ -209,6 +209,85 @@ app.post("/guadar-cambios-editor", function(request, response){
     ); 
 });
 
+// post para registrar un nuevo usuario
+app.post("/registrar-usuario", function(request, response){
+    var conexion = mysql.createConnection(credenciales);
+    const { nuevoNombre, nuevoApellido, nuevoUsuario, nuevoPais,nuevoCorreo,nuevoContrasena,
+        nuevoDireccion,nuevoCategoria,nuevoMetodoPago,nuevoExpiracion,nuevoNumero,nuevoCvv,nuevoNombreTarjeta} = request.body;
+    const sqlregistrarAlmacenamiento = `INSERT INTO tbl_almacenamientos (id_almacenamiento, id_categoria, espacio_libre, espacio_usado) 
+                                        VALUES (NULL, ?, '50', '0')`;
+    conexion.query(sqlregistrarAlmacenamiento, [nuevoCategoria], function(errorInsert, dataInsert){
+		if (errorInsert) 
+			throw errorInsert;
+            else{
+                if (dataInsert.affectedRows==1){
+                    const sqlregistrarPagoxAlmacenamiento = `INSERT INTO tbl_pagos_x_almacenamiento (id_pago_x_almacenamiento,
+                        id_almacenamiento, id_categoria_pagar, fecha_transaccion, total_pago) 
+                        VALUES (NULL, ?, ?, '2018-08-21 00:00:00', '27')`;
+                    conexion.query(sqlregistrarPagoxAlmacenamiento, [dataInsert.id_almacenamiento,nuevoCategoria], function(errorInsert, dataInsert){
+                    if (errorInsert) 
+                        throw errorInsert;
+                    else{
+                        if (dataInsert.affectedRows==1){
+                            const sqlregistrarPagoTarjeta = `INSERT INTO tbl_pagos_tarjeta (id_pago_x_almacenamiento, id_metodo_pago, nombre_tarjeta,
+                                                             numero_tarjeta, fecha_expiracion, CCV) 
+                                                             VALUES (?,?,?,?,?,?)`;
+                            conexion.query(sqlregistrarPagoTarjeta, [dataInsert.id_pago_x_almacenamiento,nuevoMetodoPago,nuevoNombreTarjeta,
+                                                                     nuevoNumero,nuevoExpiracion,nuevoCvv], function(errorInsert, dataInsert){
+                            if (errorInsert) 
+                                throw errorInsert;
+                            else{
+                                if (dataInsert.affectedRows==1){
+                                    const sqlregistrarUsuario = `INSERT INTO tbl_usuarios (id_usuario, id_almacenamiento, nombres, Apellidos, usuario, correo,
+                                                                                             contrasena, foto_perfil, direccion, Pais) 
+                                                                 VALUES (NULL,(SELECT  id_almacenamiento FROM tbl_pagos_x_almacenamiento WHERE id_pago_x_almacenamiento = `+dataInsert.id_pago_x_almacenamiento+ `),
+                                                                         ,?,?,?,?, sha1(?), 'img/profile-pics/ariel.jpeg', ?, ?)`;
+                                    conexion.query(sqlregistrarUsuario, [nuevoNombre,nuevoApellido,
+                                                                             nuevoUsuario,nuevoCorreo,nuevoContrasena,nuevoDireccion,nuevoPais], function(errorInsert, dataInsert){
+                                    if (errorInsert) 
+                                        throw errorInsert;
+                                    else{
+                                        console.log('exito :D');
+                                    }
+                                    });
+                                }
+                            }
+                            });
+                        }
+                    }
+                 });
+                }
+            }
+    });
+
+});
+
+// post para registrar un nuevo usuario
+app.post("/registrar-usuario-free", function(request, response){
+    var conexion = mysql.createConnection(credenciales);
+    const { nuevoNombre, nuevoApellido, nuevoUsuario, nuevoPais,nuevoCorreo,nuevoContrasena,
+        nuevoDireccion,nuevoCategoria} = request.body;
+    const sqlregistrarAlmacenamiento = `INSERT INTO tbl_almacenamientos (id_almacenamiento, id_categoria, espacio_libre, espacio_usado) 
+                                        VALUES (NULL, ?, '50', '0')`;
+    conexion.query(sqlregistrarAlmacenamiento, [nuevoCategoria], function(errorInsert, dataInsert){
+		if (errorInsert) 
+			throw errorInsert;
+            else{
+                    const sqlregistrarUsuario = `INSERT INTO tbl_usuarios (id_usuario, id_almacenamiento, nombres, Apellidos, usuario, correo,
+                        contrasena, foto_perfil, direccion, Pais) 
+                        VALUES (NULL,(select id_almacenamiento from tbl_almacenamientos order by id_almacenamiento DESC limit 1),
+                        ?,?,?,?, sha1(?), 'img/profile-pics/ariel.jpeg', ?, ?)`;
+                    conexion.query(sqlregistrarUsuario, [nuevoNombre,nuevoApellido,
+                                                             nuevoUsuario,nuevoCorreo,nuevoContrasena,nuevoDireccion,nuevoPais], function(errorInsert, dataInsert){
+                    if (errorInsert) 
+                        throw errorInsert;
+                    });
+                
+
+            }
+    });
+
+});
 
 //Get para cerrar Sesion
 app.get("/logout",function(peticion, respuesta){

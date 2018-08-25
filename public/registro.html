@@ -72,25 +72,24 @@
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="nombre">Nombre</label>
-                  <input type="text" class="form-control" id="nombre" placeholder="" value="" required>
+                  <input type="text" class="form-control" id="txt-nombre" placeholder="" value="nombre5" required>
                   <div class="invalid-feedback">
                     El nombre es requerido.
                   </div>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="apellido">Apellido</label>
-                  <input type="text" class="form-control" id="apellido" placeholder="" value="" required>
+                  <input type="text" class="form-control" id="txt-apellido" placeholder="" value="apellido5" required>
                   <div class="invalid-feedback">
                     El apellido es requerido.
                   </div>
                 </div>
               </div>
-
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="nombre-usuario">Usuario</label>
                   <div class="input-group">
-                    <input type="text" class="form-control" id="nombre-usuario" placeholder="Nombre de usuario" required>
+                    <input type="text" class="form-control" id="txt-usuario" placeholder="Nombre de usuario" value="usuario5" required>
                     <div class="invalid-feedback" style="width: 100%;">
                       El nombre de usario es requerido.
                     </div>
@@ -98,10 +97,11 @@
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="pais">País</label>
-                  <select class="custom-select d-block w-100" id="pais" required>
-                    <option value="">Seleccione</option>
-                    <option>estados Unidos</option>
-                    <option value="">Honduras</option>
+                  <select class="custom-select d-block w-100" id="slc-pais" required>
+                    <option value="1">Seleccione</option>
+                    <option value="2">Estados Unidos</option>
+                    <option value="3">Honduras</option>
+                    <option value="4">España</option>
                   </select>
                   <div class="invalid-feedback">
                     Seleccione un país valido.
@@ -110,8 +110,22 @@
               </div>
 
               <div class="mb-3">
+                  <label for="correo">contraseña</label>
+                  <input type="password" class="form-control" id="txt-contrasena" value="asd.456">
+                  <div class="invalid-feedback">
+                    Ingrese una contraseña valida.
+                  </div>
+                </div>
+                <div class="mb-3">
+                    <label for="correo">Confirmar contraseña</label>
+                    <input type="password" class="form-control" id="txt-contrasena-confirmada" value="asd.456">
+                    <div class="invalid-feedback">
+                      Ingrese una contraseña valida.
+                    </div>
+                  </div>
+              <div class="mb-3">
                 <label for="correo">Correo Electrónico</label>
-                <input type="email" class="form-control" id="correo" placeholder="nombre@ejemplo.com">
+                <input type="email" class="form-control" id="txt-correo" placeholder="nombre@ejemplo.com" value="usuario5@gmail.com">
                 <div class="invalid-feedback">
                   Ingrese un correo electrónico valido.
                 </div>
@@ -119,7 +133,7 @@
 
               <div class="mb-3">
                 <label for="direccion">Dirección</label>
-                <input type="text" class="form-control" id="direccion" placeholder="" required>
+                <input type="text" class="form-control" id="txt-direccion" placeholder="" value="Colonia Bonita" required>
                 <div class="invalid-feedback">
                   Ingrese una dirección.
                 </div>
@@ -143,7 +157,8 @@
                         <li>Proyectos limitados</li>
                         <li>Soporte técnico</li>
                       </ul>
-                      <button class="btn btn-primary btn-lg btn-block" type="submit">Elegir</button>
+                      <input type="hidden" id="id-categoria1" value="1">
+                      <button class="btn btn-primary btn-lg btn-block" type="button" onclick="registrarUsuarioFree()">Elegir</button>
                     </div>
                   </div>
                   <div class="card mb-4 box-shadow">
@@ -158,6 +173,7 @@
                         <li>Comparte todos tus archivos</li>
                         <li>Prioridad en soporte técnico</li>
                       </ul>
+                      <input type="hidden" id="id-categoria2" value="2">
                       <button type="button" class="btn btn-lg btn-block btn-primary" data-toggle="modal" data-target="#ventana-modal" type="submit">
                         Elegir
                       </button>
@@ -175,6 +191,7 @@
                         <li>Comparte todos tus archivos</li>
                         <li>Prioridad en soporte técnico</li>
                       </ul>
+                      <input type="hidden" id="id-categoria3" value="3">
                       <button type="button" class="btn btn-lg btn-block btn-primary" data-toggle="modal" data-target="#ventana-modal">
                         Elegir
                       </button>
@@ -200,25 +217,25 @@
             <div class="modal-body">
               <div class="d-block my-3">
                 <div class="custom-control custom-radio">
-                  <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
+                  <input value="1" id="credit" name="rbt-metodo-pago" type="radio" class="custom-control-input" checked required>
                   <label class="custom-control-label" for="credit">Tarjeta de crédito</label>
                 </div>
                 <div class="custom-control custom-radio">
-                  <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
+                  <input value="2" id="debit" name="rbt-metodo-pago" type="radio" class="custom-control-input" required>
                   <label class="custom-control-label" for="debit">Tarjeta de debito</label>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="cc-nombre">Nombre completo</label>
-                  <input type="text" class="form-control" id="cc-nombre" placeholder="" required>
+                  <input type="text" class="form-control" id="cc-nombre" placeholder="" value="Usuario5 apellido5" required>
                   <div class="invalid-feedback">
                     Nombre completo es requerido
                   </div>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="cc-numero">Número de tarjeta de crédíto</label>
-                  <input type="text" class="form-control" id="cc-numero" placeholder="" required>
+                  <input type="text" class="form-control" id="cc-numero" placeholder="" value="0215 0215 2251 2254" required>
                   <div class="invalid-feedback">
                       Número de tarjeta de crédíto es requerido
                   </div>
@@ -227,14 +244,14 @@
               <div class="row">
                 <div class="col-md-3 mb-3">
                   <label for="cc-expiracion">Expiración</label>
-                  <input type="text" class="form-control" id="cc-expiracion" placeholder="" required>
+                  <input type="text" class="form-control" id="cc-expiracion" placeholder="" value="2020-08-14" required>
                   <div class="invalid-feedback">
                       Fecha expiración requerido
                   </div>
                 </div>
                 <div class="col-md-3 mb-3">
                   <label for="cc-cvv">CVV</label>
-                  <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
+                  <input type="text" class="form-control" id="cc-cvv" value="125" required>
                   <div class="invalid-feedback">
                     Código de seguridad requerido
                   </div>
@@ -243,7 +260,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              <button class="btn btn-primary" type="submit">Obtener</button>
+              <button class="btn btn-primary" type="button" onclick="registrarUsuario()">Obtener</button>
             </div>
           </div>
         </div>
@@ -262,6 +279,7 @@
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/holder.min.js"></script>
+    <script src="js/controlador-registro.js"></script>
     <script>
       (function() {
         'use strict';
