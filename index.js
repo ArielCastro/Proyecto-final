@@ -1,4 +1,4 @@
-
+//Modulos
 var express  = require("express");
 var bodyParser = require("body-parser");
 var session = require("express-session"); 
@@ -6,7 +6,7 @@ var mysql = require("mysql");
 var app = express();
 var fs = require("fs");
 
-
+//Credenciales Base de datos
 var credenciales = {
     user:"root",
     password:"",
@@ -191,6 +191,28 @@ app.get("/obtener-contenido-archivo",function(request, response){
     .on("end",function(){
         response.send(contenidoArchivo);
     });
+});
+
+
+//post para guardar los datos realizados con el editor
+app.post("/guadar-cambios-editor", function(request, response){
+    var conexion = mysql.createConnection(credenciales);
+    var sql = `UPDATE tbl_archivos SET contenido = ? WHERE id_archivo = ?;`;
+    
+    conexion.query(
+        sql,
+        [request.body.textoEditado, request.body.idArchivo],
+        function(err, result){
+            if (err) throw err;
+            response.send(result);
+        }
+    ); 
+});
+
+
+//Get para cerrar Sesion
+app.get("/logout",function(peticion, respuesta){
+	peticion.session.destroy();
 });
 
 

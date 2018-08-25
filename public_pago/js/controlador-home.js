@@ -171,6 +171,8 @@ function cargarTodoCompartidos(){
 	
 }
 
+
+//Funcion para utilizar ACE 
 function obtenerContenidoArchivo(id_archivo,contenido,nombre){
 	
 	function update(){
@@ -192,6 +194,7 @@ function obtenerContenidoArchivo(id_archivo,contenido,nombre){
 		$("#div-gestion-archivos").show();
 		$("#editor").show();
 		$("#container").show();
+		$("#id-archivo").val(id_archivo);
 		//escribimos los datos que tiene el texto
 		editor.setValue(contenido,1);
 
@@ -217,4 +220,38 @@ function obtenerContenidoArchivo(id_archivo,contenido,nombre){
 
 };
 
+function GuardarContenidoEditado(id_archivo,contenidoEditado) {
+	var textoEditado = editor.getValue();
+}
+
+//funcion para guardar los cambios del editor
+$("#btn-guardar").click(function(){
+	//alert("Enviar mensaje: " + $("#txta-mensaje").val());
+	console.log("Enviar al servidor: texto editado: " + editor.getValue() + ", id'archivo: " + $("#id-archivo").val());
+	var parametros = "textoEditado="+editor.getValue()+ "&" + "idArchivo="+$("#id-archivo").val();
+	$.ajax({
+		url:"/guadar-cambios-editor",
+		method:"POST",
+		data:parametros,
+		dataType:"json",
+		success:function(respuesta){
+			if (respuesta.affectedRows==1){
+				alert('Se guardaron todos los cambios')
+			}
+			console.log(respuesta);
+		}
+	});
+});
+
+// evento click para cerrar Sesion
+$("#btn-logout").click(function(){
+	$.ajax({
+		url:"/logout",
+		method:"get",
+		dataType:"json",
+		success:function(respuesta){
+			}
+	});
+	window.location.href ="index.html";
+});
 
