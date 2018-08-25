@@ -1,5 +1,4 @@
 
-
 //obtener carpetas propias
 function cargarCarpetas(){
 	$.ajax({
@@ -39,7 +38,6 @@ function cargarCarpetas(){
 		}
 	});
 };
-
 // obtener archivos propios
 function cargarArchivos(){
 	//Esta funcion se ejecuta cuando la página esta lista
@@ -53,7 +51,7 @@ function cargarArchivos(){
 				<tbody>
 				  <tr>
 					<!-- <th scope="row"></th> -->
-					<td><a href="#">${respuesta[i].Nombre}</a></td>
+					<td><a href="#" onClick="cargarContenidoArchivo(${respuesta[i].id_archivo})">${respuesta[i].Nombre}</a></td>
 					<td>${respuesta[i].propietario}</td>
 					<td>${respuesta[i].tamanio} kb</td>
 					<td>${respuesta[i].fecha_creacion}</td>
@@ -61,6 +59,25 @@ function cargarArchivos(){
                   </tr>
                   </tbody>`
 				);
+			}
+		}
+	});
+};
+
+
+//carga el contenido del archivo y lo muestra en el editor de texto
+function cargarContenidoArchivo(id_archivo){
+	//Esta funcion se ejecuta cuando la página esta lista
+	$.ajax({
+		url:"/obtener-contenido-archivo",
+		method:"GET",
+		data:"id_archivo="+id_archivo,
+		dataType:"json",
+		success:function(respuesta){
+			for(var i=0; i<respuesta.length;i++){
+					
+			//console.log('entro al success de cargarcontenidoArchivo'+respuesta[i].contenido);
+			obtenerContenidoArchivo(respuesta[i].id_archivo,respuesta[i].contenido,respuesta[i].nombre);
 			}
 		}
 	});
@@ -74,6 +91,9 @@ $(document).ready(function(){
 
 //cargar los archivos propios cuando se de click en mis proyectos
 function cargarTodoMisArchivos(){
+	$("#editor").hide();
+	$("#container").hide();
+	$("#div-gestion-archivos").hide();
 	cargarCarpetas();
 	cargarArchivos();
 };
@@ -130,8 +150,7 @@ function cargarArchivosCompartidos(){
 					`
 				<tbody>
 				  <tr>
-					<!-- <th scope="row"></th> -->
-					<td><a href="#">${respuesta[i].nombre}</a></td>
+					<td><a href="#" onClick="cargarContenidoArchivo(${respuesta[i].id_archivo})">${respuesta[i].nombre}</a></td>
 					<td>${respuesta[i].propietario}</td>
 					<td>${respuesta[i].tamanio} kb</td>
 					<td>${respuesta[i].fecha_compartido}</td>
@@ -144,9 +163,58 @@ function cargarArchivosCompartidos(){
 };
 
 function cargarTodoCompartidos(){
+	$("#editor").hide();
+	$("#container").hide();
+	$("#div-gestion-archivos").hide();
 	cargarCarpetasCompartidas();
 	cargarArchivosCompartidos();
 	
 }
+
+function obtenerContenidoArchivo(id_archivo,contenido,nombre){
+	
+	function update(){
+		var idoc = document.getElementById('iframe').contentWindow.document;
+		idoc.open();
+		idoc.write(editor.getValue());
+		idoc.close();
+	}
+
+	function setupEditor(){
+		window.editor = ace.edit("editor");
+		editor.setTheme("ace/theme/monokai");
+		editor.getSession().setMode("ace/mode/html");
+
+
+		$("#h1-titulo").html(nombre);
+		$("#tbl-unidad").html("");
+		$("#tbl-compartidos").html("");
+		$("#div-gestion-archivos").show();
+		$("#editor").show();
+		$("#container").show();
+		//escribimos los datos que tiene el texto
+		editor.setValue(contenido,1);
+
+		editor.getSession().on('change', function() {
+			update();
+		});
+
+		editor.focus();
+
+		editor.setOptions({
+			fontSize: "16pt",
+			showLineNumbers: true,
+			showGutter: true,
+			vScrollBarAlwaysVisible:true,
+			enableBasicAutocompletion: false, enableLiveAutocompletion: false
+		});
+
+		editor.setShowPrintMargin(false);
+		editor.setBehavioursEnabled(false);
+	}
+	setupEditor();
+	update();
+
+};
 
 

@@ -4,6 +4,7 @@ var bodyParser = require("body-parser");
 var session = require("express-session"); 
 var mysql = require("mysql");
 var app = express();
+var fs = require("fs");
 
 
 var credenciales = {
@@ -85,8 +86,8 @@ app.post("/login", function(peticion, respuesta){
 app.get("/obtener-archivos", function(request, response){
     
     var conexion = mysql.createConnection(credenciales);
-    var sql = `SELECT a.nombre_archivo Nombre, b.usuario propietario,a.tamanio tamanio, a.fecha_creacion fecha_creacion,
-                    a.fecha_modificacion fecha_modificacion
+    var sql = `SELECT a.nombre_archivo Nombre, b.usuario propietario,a.tamanio tamanio, DATE_FORMAT(a.fecha_creacion,'%d/ %m/ %Y , %h:%i %p') fecha_creacion,
+              DATE_FORMAT(a.fecha_modificacion,'%d/ %m/ %Y , %h:%i %p') fecha_modificacion, a.contenido contenido, a.id_archivo id_archivo
                 FROM tbl_archivos a 
                 INNER JOIN tbl_usuarios b
                 on(a.id_usuario = b.id_usuario)
@@ -132,14 +133,13 @@ app.get("/obtener-carpetas", function(request, response){
 app.get("/obtener-archivos-compartidos", function(request, response){
     var conexion = mysql.createConnection(credenciales);
     var sql = `SELECT c.nombre_archivo nombre, (SELECT usuario from tbl_usuarios where id_usuario = b.id_usuario_comparte) propietario, 
-                c.tamanio tamanio, b.fecha_compartido fecha_compartido
+                c.tamanio tamanio, DATE_FORMAT(b.fecha_compartido,'%d/ %m/ %Y , %h:%i %p') fecha_compartido, c.id_archivo id_archivo
                 FROM tbl_usuarios a
                 INNER JOIN tbl_usuarios_x_archivos b
                 on(a.id_usuario = b.id_usuario_recibe)
                 INNER JOIN tbl_archivos c
                 on(b.id_archivo = c.id_archivo)
                 where a.id_usuario =`+request.session.idUsuario;
-    console.log(sql);
     
     var archivos = [];
     conexion.query(sql)
@@ -148,7 +148,6 @@ app.get("/obtener-archivos-compartidos", function(request, response){
     })
     .on("end",function(){
         response.send(archivos);
-        console.log(archivos);
         
     });   
 });
@@ -157,7 +156,7 @@ app.get("/obtener-archivos-compartidos", function(request, response){
 app.get("/obtener-carpetas-compartidas", function(request, response){  
     var conexion = mysql.createConnection(credenciales);
     var sql = `SELECT c.nombre_carpeta nombre, (SELECT usuario from tbl_usuarios where id_usuario = b.id_usuario_comparte) propietario,						
-                c.tamanio tamanio ,b.fecha_compartido fecha_compartido
+                c.tamanio tamanio ,DATE_FORMAT(b.fecha_compartido,'%d/ %m/ %Y , %h:%i %p') fecha_compartido
                 FROM tbl_usuarios a
                 INNER JOIN tbl_usuarios_x_carpetas b
                 on(a.id_usuario = b.id_usuario_recibe)
@@ -176,6 +175,23 @@ app.get("/obtener-carpetas-compartidas", function(request, response){
     });   
 });
 
+
+//obtiene los datos del archivo
+app.get("/obtener-contenido-archivo",function(request, response){
+    var conexion = mysql.createConnection(credenciales);
+    var sql =   `SELECT nombre_archivo nombre,id_archivo id_archivo ,contenido contenido FROM tbl_archivos WHERE id_archivo = ?;`;
+    var contenidoArchivo = [];
+    conexion.query(sql, 
+                    [
+                        request.query.id_archivo   
+                    ])
+    .on("result", function(resultado){
+        contenidoArchivo.push(resultado);
+    })
+    .on("end",function(){
+        response.send(contenidoArchivo);
+    });
+});
 
 
 app.listen(3000);
