@@ -8,11 +8,11 @@
     <title>Clouddit</title>
     <link rel="shortcut icon" href="img/icono-clouddit.png" />
 
-    <!-- Bootstrap core CSS -->
+    <!-- estilos css -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/fontawesome-all.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+    <!-- hojas de estilo -->
     <link href="css/home.css" rel="stylesheet">
     <link href="css/ace.css" rel="stylesheet">
 
@@ -28,7 +28,6 @@
           <div>
             <a class="navbar-brand" href="#"><img src="img/logo-clouddit-end.png" id="img-logo"></a>
           </div>
-          <!-- <<a class="navbar-brand" href="#"><img src="img/favicon.ico"></a> -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-landing" aria-controls="navbar-landing" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -36,20 +35,38 @@
             <div class="collapse navbar-collapse" id="navbar-landing">
                 <ul class="navbar-nav mr-auto" id="ul-navbar">
                     <li class="nav-item active">
-                        <input class="form-control form-control-dark w-200 " type="text" size="50" placeholder="Buscar" aria-label="Search">
+                        <input class="form-control form-control-dark w-200 " type="text" size="50" placeholder="Buscar" style="margin-left: 40px;" aria-label="Search">
                     </li>
                 </ul>
-                <form class="form-inline mt-2 mt-md-0">
+                <form class="form-inline mt-2 mt-md-0" style="margin-right:90px;">
                     <ul class="navbar-nav mr-auto" id="nav-der">
-                        <li>
+                      <li>
                           <button type="button"  class="btn btn-outline-light rounded-circle"><i class="far fa-question-circle "></i></button>
-                        </li>
+                      </li>
                       <li>
                           <button type="button"  class="btn btn-outline-light rounded-circle"><i class="fas fa-cog "></i></button>
                       </li> 
-                        <li>
+                      <!-- <li>
                         <div id="img-usuario"><img src="img/profile.jpg" class="rounded-circle img-thumbnail">
-                        </li>
+                      </li> -->
+                      <li>
+                        <div class="dropdown">
+                            <div id="img-usuario"><img src="img/profile.jpg" class="rounded-circle img-thumbnail dropdown-toggle" data-toggle="dropdown">
+                            <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                              Dropdown button
+                            </button> -->
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#ventana-modal-configuar-datos" onclick="obtenerDatosUsuarioModificar();"> Editar perfil</a>
+                              <a class="dropdown-item" href="#">Configuración</a>
+                              <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#" id="btn-logout">
+                                  <span><i class="fas fa-sign-out-alt"></i></span>
+                                  Cerrar Sesión
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                      </li>
                     </ul>
                 </form>
             </div>
@@ -63,21 +80,15 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
               <li class="nav-item">
-                <a class="nav-link active" href="#">
-                  <i class="far fa-folder"></i> 
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#ventana-modal-crear-archivo">
+                    <i class="far fa-file"></i>
                   Crear proyecto <span class="sr-only">(current)</span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span><i class="far fa-file"></i></span>
+                <a class="nav-link" href="#" onclick="cargarTodoMisArchivos();">
+                    <i class="far fa-file-alt"></i>
                   Mis proyectos
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span><i class="fas fa-users"></i></span>
-                  Compartidos
                 </a>
               </li>
               <li class="nav-item">
@@ -94,154 +105,186 @@
                 <span data-feather="plus-circle"></span>
               </a>
             </h6>
-            <ul class="nav flex-column mb-2">
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Proyecto 1
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Proyecto 2
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Proyecto 3
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Proyecto 4
-                </a>
-              </li>
-            </ul>
           </div>
         </nav>
-
+        
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Dashboard</h1>
+            <h1 class="h2" id="h1-titulo"></h1>
             <div class="btn-toolbar mb-2 mb-md-0">
-              <div class="btn-group mr-2">
-                <button class="btn btn-sm btn-outline-secondary">Compartir</button>
-                <button class="btn btn-sm btn-outline-secondary">Exportar</button>
+              <div  style="display:none;" id="div-gestion-archivos" class="btn-group mr-2">
+                <div id="btn-guardar" class="col-sm-1 col-xs-1 reply-send" style="margin-right :15px;">
+                   <a href="#"><span><i class="far fa-save fa-2x"></i></span></a>
+                </div>
+                <div id="btn-borrar" class="col-sm-1 col-xs-1 reply-send">
+                    <a href="#"><span><i class="far fa-trash-alt fa-2x"></i></span></a>
+                </div>
+                <input type="hidden" id="id-archivo">
               </div>
-              <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                <span data-feather="calendar"></span>
-                Esta semana
-              </button>
             </div>
           </div>
 
-          <!-- DIV para el editor de texto -->
-          <div type="hidden" id="editor"></div>
+          <!-- Tablas que muestran los datos -->
+          <div>
+            <table class="table table-striped" id="tbl-unidad">
+            </table>
+            <table class="table table-striped" id="tbl-compartidos">
+          </table>
+          </div>
 
+          <!-- DIV para el editor de texto -->
+          <pre id="editor"></pre>
+          <!-- style="display:none;"  -->
           <div type="hidden" id='container'>
             <iframe id='iframe' frameBorder="0"></iframe>
           </div>
           <!-- Fin editor -->
         </main>
+
+      <!-- Ventana Modal para crear un nuevo archivo-->
+      <form>
+        <div class="modal fade" id="ventana-modal-crear-archivo" tabindex="-1" role="dialog" aria-labelledby="ventana-modalTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header" style="background-color: #2F3D3F; color: #FFA425">
+                <h5 class="modal-title" id="titulo-principal">Crear Archivo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-11 mb-3">
+                    <label for="cc-nombre">Nombre del archivo</label>
+                    <input type="text" class="form-control" id="txt-nombre-archivo" placeholder="" required>
+                    <div class="invalid-feedback">
+                      Ingrese un nombre válido
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="pais">Tipo de Archivo</label>
+                  <select class="custom-select d-block w-100" id="slc-extension" required>
+                    <option value="0">Seleccione</option>
+                    <option value="1">HTML</option>
+                    <option value="2">Javascript</option>
+                    <option value="3">C++</option>
+                    <option value="4">java</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Seleccione un país valido.
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button class="btn btn-primary" type="button" onclick="nuevoArchivo()">Crear</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+
+       <!-- Ventana Modal para configurar datos del usuario-->
+       <form>
+          <div class="modal fade" id="ventana-modal-configuar-datos" tabindex="-1" role="dialog" aria-labelledby="ventana-modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header" style="background-color: #2F3D3F; color: #FFA425">
+                  <h5 class="modal-title" id="titulo-principal">Configurar datos personales</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+          <div class="row">
+          <div class="col-md-12 order-md-1">
+            <h4 class="col-md-11 mb-3"> Ingrese los cambios</h4>
+            <form class="needs-validation" novalidate>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="nombre">Nombre</label>
+                  <input type="text" class="form-control" id="txt-nombre" placeholder="" required>
+                  <div class="invalid-feedback">
+                    El nombre es requerido.
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="apellido">Apellido</label>
+                  <input type="text" class="form-control" id="txt-apellido" placeholder=""required>
+                  <div class="invalid-feedback">
+                    El apellido es requerido.
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="nombre-usuario">Usuario</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" id="txt-usuario" placeholder="Nombre de usuario" required>
+                    <div class="invalid-feedback" style="width: 100%;">
+                      El nombre de usario es requerido.
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="pais">País</label>
+                  <select class="custom-select d-block w-100" id="slc-pais" required>
+                    <option value="1">Seleccione</option>
+                    <option value="2">Estados Unidos</option>
+                    <option value="3">Honduras</option>
+                    <option value="4">España</option>
+                  </select>
+                  <div class="invalid-feedback">
+                    Seleccione un país valido.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-11 mb-3">
+                  <label for="correo">Contraseña anterior</label>
+                  <input type="password" class="form-control" id="txt-contrasena-anterior">
+                  <div class="invalid-feedback">
+                    Ingrese una contraseña valida.
+                  </div>
+                </div>
+                <div class="col-md-11 mb-3">
+                    <label for="correo">Nueva contraseña</label>
+                    <input type="password" class="form-control" id="txt-contrasena" value="asd.456">
+                    <div class="invalid-feedback">
+                      Ingrese una contraseña valida.
+                    </div>
+                  </div>
+              <div class="col-md-11 mb-3">
+                <label for="correo">Correo Electrónico</label>
+                <input type="email" class="form-control" id="txt-correo" placeholder="nombre@ejemplo.com">
+                <div class="invalid-feedback">
+                  Ingrese un correo electrónico valido.
+                </div>
+              </div>
+
+              <div class="col-md-11 mb-3">
+                <label for="direccion">Dirección</label>
+                <input type="text" class="form-control" id="txt-direccion" placeholder="" required>
+                <div class="invalid-feedback">
+                  Ingrese una dirección.
+                </div>
+              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  <button class="btn btn-primary" type="button" onclick="registrarCambiosDatos()">Cambiar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
       </div>
     </div>
 
-    <!-- Script de ACE -->
-    <script type="text/Javascript">
-            // var e = ace.edit("editor");
-            // e.getSession().setMode("ace/mode/javascript");
-            // e.setTheme("ace/theme/twilight");
-            function update()
-      {
-        var idoc = document.getElementById('iframe').contentWindow.document;
-        idoc.open();
-        idoc.write(editor.getValue());
-        idoc.close();
-      }
-
-      function setupEditor()
-      {
-      window.editor = ace.edit("editor");
-      editor.setTheme("ace/theme/monokai");
-      editor.getSession().setMode("ace/mode/html");
-      editor.setValue(`<!DOCTYPE html>
-      <html>
-      <head>
-      </head>
-
-      <body>
-
-      </body>
-
-      </html>`,1); //1 = moves cursor to end
-
-      editor.getSession().on('change', function() {
-        update();
-      });
-
-      editor.focus();
-
-      editor.setOptions({
-        fontSize: "16pt",
-        showLineNumbers: true,
-        showGutter: true,
-        vScrollBarAlwaysVisible:true,
-        enableBasicAutocompletion: false, enableLiveAutocompletion: false
-      });
-
-      editor.setShowPrintMargin(false);
-      editor.setBehavioursEnabled(false);
-      }
-      setupEditor();
-      update();
-    </script>
-
-    <!-- Bootstrap JavaScript-->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script>
+    <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/controlador-home.js"></script>
 
-    <!-- Icons -->
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <script>
-      feather.replace()
-    </script>
-
-    <!-- Graphs -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
-    <!-- <script>
-      var ctx = document.getElementById("myChart");
-      var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-          datasets: [{
-            data: [15339, 21345, 18483, 24003, 23489, 24092, 12034],
-            lineTension: 0,
-            backgroundColor: 'transparent',
-            borderColor: '#007bff',
-            borderWidth: 4,
-            pointBackgroundColor: '#007bff'
-          }]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: false
-              }
-            }]
-          },
-          legend: {
-            display: false,
-          }
-        }
-      });
-    </script> -->
   </body>
 </html>

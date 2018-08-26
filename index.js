@@ -67,7 +67,7 @@ app.post("/login", function(peticion, respuesta){
                     peticion.session.usuario = data[0].usuario;
                     peticion.session.correo = data[0].correo;
                     peticion.session.idUsuario = data[0].idUsuario;
-                    peticion.session.categoria = data[0].categoria
+                    peticion.session.categoria = data[0].categoria;
                     console.log('Codigo del usuario:' +peticion.session.idUsuario);
                     console.log('Codigo de la categoria:' +peticion.session.categoria);
                     data[0].estatus = 0;
