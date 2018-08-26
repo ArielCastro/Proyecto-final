@@ -7,8 +7,9 @@
     <meta name="author" content="">
     <title>Login-Clouddit</title>
     <link rel="shortcut icon" href="img/icono-clouddit.png" />
-    <!-- Bootstrap CSS -->
+    <!-- estilos CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/fontawesome-all.css" rel="stylesheet">
 
     <!-- css-->
     <link href="css/login.css" rel="stylesheet">
@@ -52,29 +53,35 @@
       </header>
   
     <form class="form-signin" id="form-login">
-      <img class="mb-4" src="img/logo-clouddit-end.png" alt="" width="200" height="55">
-      <h1 class="h3 mb-3 font-weight-normal">Iniciar Sesión</h1>
+      <img class="mb-3" src="img/logo-clouddit-end.png" alt="" width="200" height="55">
+      <h1 class="h3 mb-3 font-weight-normal" style="color:bisque">Iniciar Sesión</h1>
       <label for="entrada-email" class="sr-only">Correo Eletrónico</label>
-      <input type="text" class="form-control" placeholder="Usuario" id="correo" value="arielcastromejia@gmail.com">
-      <input type="password" class="form-control" placeholder="Contraseña" id="contrasena" value="asd.456">
-      <input type="button" class="btn btn-lg btn-primary btn-block" value="Iniciar Sesión" id="btn-login">
-      <!-- <input type="email" id="correo" class="form-control" placeholder="Correo Electrónico" required autofocus>
-      <label for="inputPassword" class="sr-only">Contraseña</label>
-      <input type="password" id="contrasena" class="form-control" placeholder="Contraseña" required> -->
+      <input type="text" class="form-control mt-2" placeholder="Usuario" id="correo" value="arielcastromejia@gmail.com">
+      <input type="password" class="form-control mt-3" placeholder="Contraseña" id="contrasena" value="asd.456">
+      <input type="button" class="btn btn-lg btn-primary btn-block mt-5 mb-1" value="Ingresar" id="btn-login">
       <div class="checkbox mb-3">
-        <label>
+        <label style="color:bisque">
           <input type="checkbox" value="remember-me"> Recuérdame
         </label>
       </div>
+      <a href="registro.html" style="color:bisque">¿No tienes cuenta? Regístrate</a>
+      <div>
+          
+      </div>
+      <div class="mt-2">
+        <table class="mx-auto" >
+                <tr>
+                    <td><div style="margin-right:10px;"><a href="#"><i class="fab fa-google fa-2x" style="color:bisque"></i></a></div></td>
+                    <td><div><a href="#"><i class="fab fa-facebook fa-2x" style="color:bisque"></i></a></div></td>
+                </tr>
+        </table>
+      </div>
       <!-- <button class="btn btn-lg btn-primary btn-block" id="btn-login">Ingresar</button> -->
       <!-- <input type="button" class="btn btn-success" value="Login" id="btn-login"> -->
-      <a href="registro.html">¿No tienes cuenta? Regístrate</a>
-      <p class="mt-5 mb-3 text-muted">&copy; Clouddit, 2018</p>
+      
+      <p class="mt-4 mb-3 text-muted" style="color:bisque !important">&copy; Clouddit, 2018</p>
     </form>
 
-    <!-- Bootstrap Javascript -->
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="js/jquery-slim.min.js"><\/script>')</script> -->
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/controlador-login.js"></script> 

@@ -1,9 +1,14 @@
 
 #form-login{
-  background-color: #F8F7F6;
+  background-color: #2F3D3F;
+  opacity: 0.97;
+}
+#btn-login{
+  opacity: 0.99 !important;
+  background-color:#FFA425
 }
 
-
+/* #F8F7F6 */
 
 html,
 body {
@@ -49,11 +54,11 @@ body {
 }
 .form-signin input[type="email"] {
   margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
+  /* border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0; */
 }
 .form-signin input[type="password"] {
   margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  /* border-top-left-radius: 0;
+  border-top-right-radius: 0; */
 }

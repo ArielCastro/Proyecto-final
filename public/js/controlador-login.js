@@ -19,6 +19,3 @@ $("#btn-login").click(function(){
     });
 });
 
-
-
-//data:"correo=arielcastromejia@gmail.com&contrasena=asd.456", 

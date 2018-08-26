@@ -26,7 +26,7 @@ function cargarCarpetas(){
 				<tbody>
 				  <tr>
 					<!-- <th scope="row"></th> -->
-					<td><a href="#">${respuesta[i].nombre}</a></td>
+					<td><a href="#"><i class="far fa-folder"></i> ${respuesta[i].nombre}</a></td>
 					<td>${respuesta[i].propietario}</td>
 					<td>${respuesta[i].tamanio} kb</td>
 					<td>-</td>
@@ -38,6 +38,7 @@ function cargarCarpetas(){
 		}
 	});
 };
+
 // obtener archivos propios
 function cargarArchivos(){
 	//Esta funcion se ejecuta cuando la página esta lista
@@ -51,7 +52,7 @@ function cargarArchivos(){
 				<tbody>
 				  <tr>
 					<!-- <th scope="row"></th> -->
-					<td><a href="#" onClick="cargarContenidoArchivo(${respuesta[i].id_archivo})">${respuesta[i].Nombre}</a></td>
+					<td><a href="#" onClick="cargarContenidoArchivo(${respuesta[i].id_archivo})"><i class="far fa-file-alt"></i> ${respuesta[i].Nombre}</a></td>
 					<td>${respuesta[i].propietario}</td>
 					<td>${respuesta[i].tamanio} kb</td>
 					<td>${respuesta[i].fecha_creacion}</td>
@@ -77,7 +78,7 @@ function cargarContenidoArchivo(id_archivo){
 			for(var i=0; i<respuesta.length;i++){
 					
 			//console.log('entro al success de cargarcontenidoArchivo'+respuesta[i].contenido);
-			obtenerContenidoArchivo(respuesta[i].id_archivo,respuesta[i].contenido,respuesta[i].nombre);
+			obtenerContenidoArchivo(respuesta[i].id_archivo,respuesta[i].contenido,respuesta[i].nombre,respuesta[i].id_extension);
 			}
 		}
 	});
@@ -126,7 +127,7 @@ function cargarCarpetasCompartidas(){
 				<tbody>
 				  <tr>
 					<!-- <th scope="row"></th> -->
-					<td><a href="#">${respuesta[i].nombre}</a></td>
+					<td><a href="#"><i class="far fa-folder"></i> ${respuesta[i].nombre}</a></td>
 					<td>${respuesta[i].propietario}</td>
 					<td>${respuesta[i].tamanio} kb</td>
 					<td>${respuesta[i].fecha_compartido}</td>
@@ -150,7 +151,7 @@ function cargarArchivosCompartidos(){
 					`
 				<tbody>
 				  <tr>
-					<td><a href="#" onClick="cargarContenidoArchivo(${respuesta[i].id_archivo})">${respuesta[i].nombre}</a></td>
+					<td><a href="#" onClick="cargarContenidoArchivo(${respuesta[i].id_archivo})"><i class="far fa-file-alt"></i> ${respuesta[i].nombre}</a></td>
 					<td>${respuesta[i].propietario}</td>
 					<td>${respuesta[i].tamanio} kb</td>
 					<td>${respuesta[i].fecha_compartido}</td>
@@ -173,7 +174,7 @@ function cargarTodoCompartidos(){
 
 
 //Funcion para utilizar ACE 
-function obtenerContenidoArchivo(id_archivo,contenido,nombre){
+function obtenerContenidoArchivo(id_archivo,contenido,nombre,id_extension){
 	
 	function update(){
 		var idoc = document.getElementById('iframe').contentWindow.document;
@@ -185,8 +186,20 @@ function obtenerContenidoArchivo(id_archivo,contenido,nombre){
 	function setupEditor(){
 		window.editor = ace.edit("editor");
 		editor.setTheme("ace/theme/monokai");
-		editor.getSession().setMode("ace/mode/html");
 
+		//elegir la extension del archivo
+		if (id_extension == 1) {
+			editor.getSession().setMode("ace/mode/html");
+		} else if (id_extension == 2) {
+				editor.getSession().setMode("ace/mode/javascript");
+			}else if (id_extension == 3) {
+				editor.getSession().setMode("ace/mode/ccpp");
+			}else if(id_extension ==4){
+				editor.getSession().setMode("ace/mode/java");
+			}else{
+				alert('extension no existe')
+			};
+		
 
 		$("#h1-titulo").html(nombre);
 		$("#tbl-unidad").html("");
@@ -226,7 +239,6 @@ function GuardarContenidoEditado(id_archivo,contenidoEditado) {
 
 //funcion para guardar los cambios del editor
 $("#btn-guardar").click(function(){
-	//alert("Enviar mensaje: " + $("#txta-mensaje").val());
 	console.log("Enviar al servidor: texto editado: " + editor.getValue() + ", id'archivo: " + $("#id-archivo").val());
 	var parametros = "textoEditado="+editor.getValue()+ "&" + "idArchivo="+$("#id-archivo").val();
 	$.ajax({
@@ -238,10 +250,113 @@ $("#btn-guardar").click(function(){
 			if (respuesta.affectedRows==1){
 				alert('Se guardaron todos los cambios')
 			}
+		}
+	});
+});
+
+//funcion para compartir archivos
+function compartirArchivo(){
+	var parametros = "correoCompartir="+ $("#correo-compartir").val() + "&" + "idArchivo="+$("#id-archivo").val();
+	$.ajax({
+		url:"/compartir-archivos",
+		method:"POST",
+		data:parametros,
+		dataType:"json",
+		success:function(respuesta){
+			if (respuesta.affectedRows==1){
+				alert('Se compartió el archivo' + $("#correo-compartir").val());
+				window.location.href ="home.html";
+			}
+			console.log(respuesta);
+		}
+	});
+};
+
+//funcion para borrar archivos
+$("#btn-borrar").click(function(){
+	//alert("Enviar mensaje: " + $("#txta-mensaje").val());
+	console.log("Enviar al servidor: correo a compartir " + $("#correo-compartir").val() + ", id'archivo: " + $("#id-archivo").val());
+	var parametros = "idArchivo="+$("#id-archivo").val();
+	$.ajax({
+		url:"/borrar-archivo",
+		method:"POST",
+		data:parametros,
+		dataType:"json",
+		success:function(respuesta){
+			if (respuesta.affectedRows==1){
+				alert('Se eliminó el archivo');
+				window.location.href ="home.html";
+			}
 			console.log(respuesta);
 		}
 	});
 });
+
+//funcion para crear nuevos archivos
+function nuevoArchivo(){
+	$.ajax({
+		url:"/nuevo-archivo",
+		method:"POST",
+		data:{
+			nombreArchivo: $('#txt-nombre-archivo').val(),
+			idExtension: $('#slc-extension').val()
+		},
+		dataType:"json",
+		success:function(respuesta){
+			if (respuesta.affectedRows==1){
+				alert('Se creo el archivo con el nombre ' + $("#txt-nombre-archivo").val());
+				window.location.href ="home.html";
+			}
+			console.log(respuesta);
+		}
+	});
+};
+
+//Configurar datos personales del usuario
+function registrarCambiosDatos(){
+	
+	$.ajax({
+		url: '/registrar-cambios-datos',
+		dataType:"json",
+		method:"POST",
+		data: {
+			nuevoNombre: $('#txt-nombre').val(),
+			nuevoApellido: $('#txt-apellido').val(),
+            nuevoUsuario: $('#txt-usuario').val(),
+            nuevoPais: $('#txt-slcpais').val(),
+			nuevoCorreo: $('#txt-correo').val(),
+			nuevoContrasena: $('#txt-contrasena').val(),
+            nuevoDireccion: $('#txt-direccion').val()
+		},
+		success:function(respuesta){
+			//$('#div-following').prepend(obtenerTagFollowings(listaFollowers[i].nombre,listaFollowers[i].imagen,listaFollowers[i].lugar));
+			//console.log(respuesta);
+			//Alert('Se añadio nuevo Usuario');
+			console.log('se añadio nuevo usuario');
+		}
+	});
+	alert('Se realizaron los cambios' )
+	window.location.href ="home.html";
+	
+}
+
+// obtener archivos propios
+function obtenerDatosUsuarioModificar(){
+	//Esta funcion se ejecuta cuando la página esta lista
+	$.ajax({
+		url:"/obtener-datos-usuario-modificar",
+		dataType:"json",
+		success:function(respuesta){
+			for(var i=0; i<respuesta.length; i++){
+				$("#tbl-nombre").append(respuesta[i].nombres);
+				$("#tbl-apellido").append(respuesta[i].Apellidos);
+				$("#tbl-usuario").append(respuesta[i].usuario);
+				$("#txt-correo").append(respuesta[i].correo);
+				$("#txt-direccion").append(respuesta[i].direccion);
+			}
+		}
+	});
+};
 
 // evento click para cerrar Sesion
 $("#btn-logout").click(function(){

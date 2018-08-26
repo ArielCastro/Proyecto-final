@@ -179,7 +179,8 @@ app.get("/obtener-carpetas-compartidas", function(request, response){
 //obtiene los datos del archivo
 app.get("/obtener-contenido-archivo",function(request, response){
     var conexion = mysql.createConnection(credenciales);
-    var sql =   `SELECT nombre_archivo nombre,id_archivo id_archivo ,contenido contenido FROM tbl_archivos WHERE id_archivo = ?;`;
+    var sql =   `SELECT nombre_archivo nombre,id_archivo id_archivo ,contenido contenido, id_extension
+                 FROM tbl_archivos WHERE id_archivo = ?;`;
     var contenidoArchivo = [];
     conexion.query(sql, 
                     [
@@ -209,7 +210,56 @@ app.post("/guadar-cambios-editor", function(request, response){
     ); 
 });
 
-// post para registrar un nuevo usuario
+//post para guardar los archivos compartidos
+app.post("/compartir-archivos", function(request, response){
+    var conexion = mysql.createConnection(credenciales);
+    var sql = ` INSERT INTO tbl_usuarios_x_archivos(id_archivo, id_nivel_acceso, id_usuario_comparte, id_usuario_recibe, fecha_compartido)
+                VALUES (?,1,?,(SELECT id_usuario from tbl_usuarios WHERE correo = ?),now())`;
+    
+    conexion.query(
+        sql,
+        [request.body.idArchivo, request.session.idUsuario, request.body.correoCompartir],
+        function(err, result){
+            if (err) throw err;
+            response.send(result);
+        }
+    ); 
+});
+
+//post para borrar el archivo abierto
+app.post("/borrar-archivo", function(request, response){
+    var conexion = mysql.createConnection(credenciales);
+    var sql = ` DELETE FROM tbl_archivos WHERE id_archivo = ?`;
+    
+    conexion.query(
+        sql,
+        [request.body.idArchivo],
+        function(err, result){
+            if (err) throw err;
+            response.send(result);
+        }
+    ); 
+});
+
+//post para guardar un nuevo archivo
+app.post("/nuevo-archivo", function(request, response){
+    var conexion = mysql.createConnection(credenciales);
+    var sql = ` INSERT INTO tbl_archivos (id_archivo, id_usuario, id_extension, id_estado_destacado, 
+                id_estado_compartido, nombre_archivo, tamanio, fecha_creacion, fecha_modificacion,contenido) 
+                VALUES (NULL, ?, ?, 1, 1, ?, 1, now(), now(),' ')`;
+    
+    conexion.query(
+        sql,
+        [request.session.idUsuario,request.body.idExtension, request.body.nombreArchivo],
+        function(err, result){
+            if (err) throw err;
+            response.send(result);
+        }
+    ); 
+    console.log(sql);
+});
+
+// post para registrar un nuevo usuario premium
 app.post("/registrar-usuario", function(request, response){
     var conexion = mysql.createConnection(credenciales);
     const { nuevoNombre, nuevoApellido, nuevoUsuario, nuevoPais,nuevoCorreo,nuevoContrasena,
@@ -262,7 +312,7 @@ app.post("/registrar-usuario", function(request, response){
 
 });
 
-// post para registrar un nuevo usuario
+// post para registrar un nuevo usuario free
 app.post("/registrar-usuario-free", function(request, response){
     var conexion = mysql.createConnection(credenciales);
     const { nuevoNombre, nuevoApellido, nuevoUsuario, nuevoPais,nuevoCorreo,nuevoContrasena,
@@ -287,6 +337,45 @@ app.post("/registrar-usuario-free", function(request, response){
             }
     });
 
+});
+
+// post para registrar un nuevo usuario free
+app.post("/registrar-cambios-datos", function(request, response){
+    var conexion = mysql.createConnection(credenciales);
+    const { nuevoNombre, nuevoApellido, nuevoUsuario, nuevoPais,nuevoCorreo,nuevoContrasena,
+        nuevoDireccion} = request.body;
+    const sqlregistrarCambiosUsuario = `UPDATE tbl_usuarios SET nombres=?,Apellidos=?,usuario=?,
+                                        correo=?,contrasena=sha1(?),direccion=?,
+                                        Pais=? 
+                                        WHERE id_usuario = ?`;
+    conexion.query(sqlregistrarCambiosUsuario, [nuevoNombre,nuevoApellido,nuevoUsuario,
+                                                nuevoCorreo,nuevoContrasena,nuevoDireccion,nuevoPais,request.session.idUsuario], function(errorInsert, dataInsert){
+		if (errorInsert) 
+			throw errorInsert;
+            else{
+                console.log('se cambiaron datos');
+            }
+    });
+
+});
+
+//funcion para obtener los datos del usuario antes de modificarlos
+app.get("/obtener-datos-usuario-modificar", function(request, response){
+    
+    var conexion = mysql.createConnection(credenciales);
+    var sql = `SELECT nombres, Apellidos, usuario, correo, Pais , direccion
+              FROM tbl_usuarios WHERE id_usuario =`+request.session.idUsuario;
+    
+    var datosUsuario = [];
+    conexion.query(sql)
+    .on("result", function(resultado){
+        datosUsuario.push(resultado);
+    })
+    .on("end",function(){
+        response.send(datosUsuario);
+        console.log( 'datos del usuario: ' + datosUsuario[0].nombres);
+        
+    });   
 });
 
 //Get para cerrar Sesion
