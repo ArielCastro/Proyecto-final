@@ -68,8 +68,9 @@ app.post("/login", function(peticion, respuesta){
                     peticion.session.correo = data[0].correo;
                     peticion.session.idUsuario = data[0].idUsuario;
                     peticion.session.categoria = data[0].categoria;
-                    console.log('Codigo del usuario:' +peticion.session.idUsuario);
-                    console.log('Codigo de la categoria:' +peticion.session.categoria);
+                    peticion.session.imagen = data[0].imagen;
+                    peticion.session.nombres = data[0].nombres;
+                    peticion.session.apellidos = data[0].apellidos;
                     data[0].estatus = 0;
                     respuesta.send(data[0]); 
                     
@@ -103,6 +104,24 @@ app.get("/obtener-archivos", function(request, response){
         response.send(archivos);
         console.log(archivos);
         
+    });   
+});
+
+//obtener los datos del usaurio logueado
+app.get("/obtener-datos-Logueado", function(request, response){
+
+    var conexion = mysql.createConnection(credenciales);
+    var sql = `SELECT id_usuario, nombres, Apellidos, usuario, correo, foto_perfil 
+                FROM tbl_usuarios WHERE id_usuario = ` + request.session.idUsuario;
+
+    var usuario = [];
+    conexion.query(sql)
+    .on("result", function(resultado){
+        usuario.push(resultado);
+    })
+    .on("end",function(){
+        response.send(usuario);
+
     });   
 });
 
@@ -363,7 +382,7 @@ app.post("/registrar-cambios-datos", function(request, response){
 app.get("/obtener-datos-usuario-modificar", function(request, response){
     
     var conexion = mysql.createConnection(credenciales);
-    var sql = `SELECT nombres, Apellidos, usuario, correo, Pais , direccion
+    var sql = `SELECT nombres, Apellidos, usuario, correo, Pais , direccion,foto_perfil
               FROM tbl_usuarios WHERE id_usuario =`+request.session.idUsuario;
     
     var datosUsuario = [];

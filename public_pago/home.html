@@ -46,17 +46,12 @@
                       <li>
                           <button type="button"  class="btn btn-outline-light rounded-circle"><i class="fas fa-cog "></i></button>
                       </li> 
-                      <!-- <li>
-                        <div id="img-usuario"><img src="img/profile.jpg" class="rounded-circle img-thumbnail">
-                      </li> -->
                       <li>
                         <div class="dropdown">
-                            <div id="img-usuario"><img src="img/profile-pics/ariel.jpeg" class="rounded-circle img-thumbnail dropdown-toggle" data-toggle="dropdown">
-                            <!-- <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                              Dropdown button
-                            </button> -->
-                            <div class="dropdown-menu">
-                              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#ventana-modal-configuar-datos" onclick="obtenerDatosUsuarioModificar();"> Editar perfil</a>
+                            <div id="img-usuario"><img src="img/profile.jpg" class="rounded-circle img-thumbnail dropdown-toggle" data-toggle="dropdown">
+ 
+                            <div class="dropdown-menu" id="div-dropdown">
+                              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#ventana-modal-configuar-datos"> Editar perfil</a>
                               <a class="dropdown-item" href="#">Configuración</a>
                               <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" id="btn-logout">
@@ -289,7 +284,7 @@
                 </div>
                 <div class="col-md-11 mb-3">
                     <label for="correo">Nueva contraseña</label>
-                    <input type="password" class="form-control" id="txt-contrasena" value="asd.456">
+                    <input type="password" class="form-control" id="txt-contrasena">
                     <div class="invalid-feedback">
                       Ingrese una contraseña valida.
                     </div>

@@ -341,18 +341,19 @@ function registrarCambiosDatos(){
 }
 
 // obtener archivos propios
-function obtenerDatosUsuarioModificar(){
+function obtenerDatosDePrueba(){
 	//Esta funcion se ejecuta cuando la página esta lista
 	$.ajax({
 		url:"/obtener-datos-usuario-modificar",
 		dataType:"json",
 		success:function(respuesta){
 			for(var i=0; i<respuesta.length; i++){
-				$("#tbl-nombre").append(respuesta[i].nombres);
-				$("#tbl-apellido").append(respuesta[i].Apellidos);
-				$("#tbl-usuario").append(respuesta[i].usuario);
+				$("#txt-nombre").append(respuesta[i].nombres);
+				$("#txt-apellido").html(respuesta[i].Apellidos);
+				$("#txt-usuario").append(respuesta[i].usuario);
 				$("#txt-correo").append(respuesta[i].correo);
 				$("#txt-direccion").append(respuesta[i].direccion);
+				$("#div-dropdown").append(`<a class="dropdown-item" href="#">`+respuesta[i].nombres`</a>` );
 			}
 		}
 	});
